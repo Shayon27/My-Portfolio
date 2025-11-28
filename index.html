@@ -10,6 +10,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@600;700;800&family=Inter:wght@400;500&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Arrows -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" xintegrity="sha512-9usAa10IRO0HhonpyAIVpjrylPvoDwiPUiKdWk5t3PyolY1cOd4DSE0Ga+ri4AuTroPR5aQvXU9xC6qOPnzFeg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 
     <style>
         /* Apply custom fonts */
@@ -72,6 +74,9 @@
             transition: all 0.3s ease-in-out;
             position: relative;
             overflow: hidden; /* Needed for the shine effect */
+            height: 100%; /* Ensure full height in flex containers */
+            display: flex;
+            flex-direction: column;
         }
         
         .glass-card:hover {
@@ -125,6 +130,58 @@
             color: #22d3ee;
             border-color: #22d3ee;
         }
+
+        /* --- SLIDER STYLES --- */
+        .slider-container {
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            -webkit-overflow-scrolling: touch; /* smooth scrolling on iOS */
+            scrollbar-width: none; /* Hide scrollbar Firefox */
+            gap: 1.5rem;
+            padding-bottom: 20px; /* Space for shadow/hover effect */
+            padding-left: 5px;
+            padding-right: 5px;
+        }
+        
+        /* Hide scrollbar for Chrome/Safari/Opera */
+        .slider-container::-webkit-scrollbar {
+            display: none;
+        }
+
+        .slider-card {
+            scroll-snap-align: center;
+            flex: 0 0 100%; /* Mobile: 1 card wide */
+        }
+
+        /* Desktop: 2 cards wide */
+        @media (min-width: 768px) {
+            .slider-card {
+                flex: 0 0 calc(50% - 0.75rem); 
+            }
+        }
+
+        /* Slider Navigation Buttons */
+        .slider-nav-btn {
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            color: #22d3ee;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            z-index: 10;
+        }
+        .slider-nav-btn:hover {
+            background: #22d3ee;
+            color: #0f172a;
+        }
+
     </style>
 </head>
 <body class="text-gray-200">
@@ -174,30 +231,65 @@
             </p>
         </section>
 
-        <!-- NEW: Projects Section -->
-        <section id="projects" class="mb-16 md:mb-24 fade-in-section">
-            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-white">Projects</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <!-- Projects Slider Section -->
+        <section id="projects" class="mb-16 md:mb-24 fade-in-section relative">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-white">Projects</h2>
+                <div class="flex gap-2">
+                    <button class="slider-nav-btn" onclick="scrollSlider('projects-slider', 'left')">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="slider-nav-btn" onclick="scrollSlider('projects-slider', 'right')">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="projects-slider" class="slider-container">
                 <!-- Project Card 1 -->
-                <div class="glass-card p-6">
-                    <h3 class="text-2xl font-semibold text-cyan-300">Malware Detection System</h3>
-                    <p class="text-sm font-medium text-gray-400 mb-3">Python, C++, Network Analysis</p>
-                    <p class="text-gray-300 mb-4">
-                        Built a tool to analyze network traffic, achieving 90% accuracy using custom classification algorithms. Implemented real-time alerting for suspicious patterns and integrated data visualization for threat reporting.
-                    </p>
+                <div class="slider-card">
+                    <div class="glass-card p-6 h-full">
+                        <h3 class="text-2xl font-semibold text-cyan-300">Malware Detection System</h3>
+                        <p class="text-sm font-medium text-gray-400 mb-3">Python, C++, Network Analysis</p>
+                        <p class="text-gray-300 mb-4 flex-grow">
+                            Built a tool to analyze network traffic, achieving 90% accuracy using custom classification algorithms. Implemented real-time alerting for suspicious patterns and integrated data visualization for threat reporting.
+                        </p>
+                    </div>
                 </div>
                 <!-- Project Card 2 -->
-                <div class="glass-card p-6">
-                    <h3 class="text-2xl font-semibold text-cyan-300">E-commerce Website</h3>
-                    <p class="text-sm font-medium text-gray-400 mb-3">HTML, CSS, JavaScript, Python (Backend)</p>
-                    <p class="text-gray-300 mb-4">
-                        Developed a full-stack e-commerce solution supporting user registration, product listings, and secure checkout. Automated order tracking and email notifications, deployed using Git and CI.
-                    </p>
+                <div class="slider-card">
+                    <div class="glass-card p-6 h-full">
+                        <h3 class="text-2xl font-semibold text-cyan-300">E-commerce Website</h3>
+                        <p class="text-sm font-medium text-gray-400 mb-3">HTML, CSS, JavaScript, Python (Backend)</p>
+                        <p class="text-gray-300 mb-4 flex-grow">
+                            Developed a full-stack e-commerce solution supporting user registration, product listings, and secure checkout. Automated order tracking and email notifications, deployed using Git and CI.
+                        </p>
+                    </div>
+                </div>
+                <!-- Project Card 3 -->
+                <div class="slider-card">
+                    <div class="glass-card p-6 h-full">
+                        <h3 class="text-2xl font-semibold text-cyan-300">Movie Recommendation System</h3>
+                        <p class="text-sm font-medium text-gray-400 mb-3">Python, Scikit-learn, Pandas, ML</p>
+                        <p class="text-gray-300 mb-4 flex-grow">
+                            Engineered a robust recommendation engine using Content-Based Filtering and Machine Learning algorithms. Processed and analyzed large datasets of movie metadata to provide personalized user suggestions, enhancing user engagement and discovery.
+                        </p>
+                    </div>
+                </div>
+                <!-- Project Card 4 -->
+                <div class="slider-card">
+                    <div class="glass-card p-6 h-full">
+                        <h3 class="text-2xl font-semibold text-cyan-300">Invisibility Cloak (OpenCV)</h3>
+                        <p class="text-sm font-medium text-gray-400 mb-3">Python, OpenCV, Computer Vision</p>
+                        <p class="text-gray-300 mb-4 flex-grow">
+                            Developed a real-time computer vision application utilizing color detection and morphological operations. The system identifies a specific color spectrum (e.g., red) and masks it with a captured background frame to create a dynamic invisibility effect.
+                        </p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- UPDATED: Technical Skills Section -->
+        <!-- Technical Skills Section -->
         <section id="skills" class="mb-16 md:mb-24 fade-in-section">
             <h2 class="text-3xl md:text-4xl font-bold mb-8 text-white">Technical Skills</h2>
             
@@ -222,6 +314,8 @@
                 <h3 class="text-xl font-semibold text-cyan-300 mb-4">Data & Tools</h3>
                 <div class="flex flex-wrap gap-3">
                     <span class="skill-pill">Data Analysis</span>
+                    <span class="skill-pill">Machine Learning</span>
+                    <span class="skill-pill">OpenCV</span>
                     <span class="skill-pill">Microsoft Power BI</span>
                     <span class="skill-pill">Microsoft Excel</span>
                     <span class="skill-pill">Tableau</span>
@@ -231,18 +325,60 @@
             </div>
         </section>
 
-        <!-- Experience Section -->
-        <section id="experience" class="mb-16 md:mb-24 fade-in-section">
-            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-white">Experience</h2>
-            <div class="glass-card p-8">
-                <h3 class="text-2xl font-semibold text-cyan-300">Data Analyst Intern</h3>
-                <p class="text-lg font-medium text-white mt-1">Unified Mentor</p>
-                <p class="text-md text-gray-400 mb-4">Oct 2025 - Nov 2025 | Bhopal, Madhya Pradesh, India</p>
-                <ul class="list-disc list-inside space-y-2 text-gray-300">
-                    <li>Analyzed large datasets to uncover actionable insights and trends.</li>
-                    <li>Automated data reporting using Python and Excel.</li>
-                    <li>Contributed to business decision-making through data visualization and presentations.</li>
-                </ul>
+        <!-- Experience Slider Section -->
+        <section id="experience" class="mb-16 md:mb-24 fade-in-section relative">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-white">Experience</h2>
+                <div class="flex gap-2">
+                    <button class="slider-nav-btn" onclick="scrollSlider('experience-slider', 'left')">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="slider-nav-btn" onclick="scrollSlider('experience-slider', 'right')">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
+                </div>
+            </div>
+            
+            <div id="experience-slider" class="slider-container">
+                <!-- Experience Item 1 -->
+                <div class="slider-card">
+                    <div class="glass-card p-8 h-full">
+                        <h3 class="text-2xl font-semibold text-cyan-300">Data Analyst Intern</h3>
+                        <p class="text-lg font-medium text-white mt-1">Unified Mentor</p>
+                        <p class="text-md text-gray-400 mb-4">Oct 2025 - Nov 2025 | Bhopal, MP</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300 flex-grow">
+                            <li>Analyzed large datasets to uncover actionable insights and trends.</li>
+                            <li>Automated data reporting using Python and Excel to streamline workflows.</li>
+                            <li>Contributed to business decision-making through data visualization and stakeholder presentations.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Experience Item 2 -->
+                <div class="slider-card">
+                    <div class="glass-card p-8 h-full">
+                        <h3 class="text-2xl font-semibold text-cyan-300">Data Scientist Intern</h3>
+                        <p class="text-lg font-medium text-white mt-1">Systemtron</p>
+                        <p class="text-md text-gray-400 mb-4">Internship</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300 flex-grow">
+                            <li>Developed predictive models using Machine Learning algorithms to solve critical business problems.</li>
+                            <li>Performed extensive data cleaning and preprocessing using Python (Pandas, NumPy) to ensure data integrity.</li>
+                            <li>Collaborated with cross-functional teams to interpret model results and implement data-driven strategies.</li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- Experience Item 3 -->
+                <div class="slider-card">
+                    <div class="glass-card p-8 h-full">
+                        <h3 class="text-2xl font-semibold text-cyan-300">Web Development Intern</h3>
+                        <p class="text-lg font-medium text-white mt-1">Systemtron</p>
+                        <p class="text-md text-gray-400 mb-4">Internship</p>
+                        <ul class="list-disc list-inside space-y-2 text-gray-300 flex-grow">
+                            <li>Designed and implemented responsive user interfaces using HTML, CSS, and JavaScript.</li>
+                            <li>Optimized website performance and ensured cross-browser compatibility for a seamless user experience.</li>
+                            <li>Collaborated with backend developers to integrate APIs and enhance application functionality.</li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -275,34 +411,67 @@
             </div>
         </section>
 
-        <!-- UPDATED: Certifications Section -->
-        <section id="certifications" class="mb-16 md:mb-24 fade-in-section">
-            <h2 class="text-3xl md:text-4xl font-bold mb-8 text-white">Certifications</h2>
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-                <div class="glass-card p-6">
-                    <h3 class="text-xl font-semibold text-cyan-300">Software Engineering Job Simulation</h3>
-                    <p class="text-gray-400 text-sm">Accenture (2025)</p>
+        <!-- UPDATED: Certifications Slider Section -->
+        <section id="certifications" class="mb-16 md:mb-24 fade-in-section relative">
+            <div class="flex items-center justify-between mb-8">
+                <h2 class="text-3xl md:text-4xl font-bold text-white">Certifications</h2>
+                <div class="flex gap-2">
+                    <button class="slider-nav-btn" onclick="scrollSlider('certifications-slider', 'left')">
+                        <i class="fas fa-chevron-left"></i>
+                    </button>
+                    <button class="slider-nav-btn" onclick="scrollSlider('certifications-slider', 'right')">
+                        <i class="fas fa-chevron-right"></i>
+                    </button>
                 </div>
-                <div class="glass-card p-6">
-                    <h3 class="text-xl font-semibold text-cyan-300">Business Analysis & Process Management</h3>
-                    <p class="text-gray-400 text-sm">Coursera (2025)</p>
+            </div>
+
+            <div id="certifications-slider" class="slider-container">
+                <!-- Cert 1 -->
+                <div class="slider-card">
+                    <div class="glass-card p-6 h-full">
+                        <h3 class="text-xl font-semibold text-cyan-300">Software Engineering Job Simulation</h3>
+                        <p class="text-gray-400 text-sm">Accenture (2025)</p>
+                    </div>
                 </div>
-                <div class="glass-card p-6">
-                    <h3 class="text-xl font-semibold text-cyan-300">Generative AI Software Development</h3>
+                <!-- Cert 2 -->
+                <div class="slider-card">
+                    <div class="glass-card p-6 h-full">
+                        <h3 class="text-xl font-semibold text-cyan-300">Business Analysis & Process Management</h3>
+                        <p class="text-gray-400 text-sm">Coursera (2025)</p>
+                    </div>
                 </div>
-                <div class="glass-card p-6">
-                    <h3 class="text-xl font-semibold text-cyan-300">Deloitte Australia - Cyber Job Simulation</h3>
+                <!-- Cert 3 -->
+                <div class="slider-card">
+                    <div class="glass-card p-6 h-full">
+                        <h3 class="text-xl font-semibold text-cyan-300">Generative AI Software Development</h3>
+                        <p class="text-gray-400 text-sm">Certification</p>
+                    </div>
                 </div>
-                <div class="glass-card p-6">
-                    <h3 class="text-xl font-semibold text-cyan-300">Amazon Bedrock Getting Started</h3>
+                <!-- Cert 4 -->
+                <div class="slider-card">
+                    <div class="glass-card p-6 h-full">
+                        <h3 class="text-xl font-semibold text-cyan-300">Deloitte Australia - Cyber Job Simulation</h3>
+                        <p class="text-gray-400 text-sm">Certification</p>
+                    </div>
                 </div>
-                <div class="glass-card p-6">
-                    <h3 class="text-xl font-semibold text-cyan-300">AI Tool Workshop</h3>
+                <!-- Cert 5 -->
+                <div class="slider-card">
+                    <div class="glass-card p-6 h-full">
+                        <h3 class="text-xl font-semibold text-cyan-300">Amazon Bedrock Getting Started</h3>
+                        <p class="text-gray-400 text-sm">Certification</p>
+                    </div>
+                </div>
+                <!-- Cert 6 -->
+                <div class="slider-card">
+                    <div class="glass-card p-6 h-full">
+                        <h3 class="text-xl font-semibold text-cyan-300">AI Tool Workshop</h3>
+                        <p class="text-gray-400 text-sm">Certification</p>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- NEW: Activities & Interests Section -->
+        <!-- Activities & Interests Section -->
         <section id="activities" class="mb-16 md:mb-24 fade-in-section">
             <h2 class="text-3xl md:text-4xl font-bold mb-8 text-white">Activities & Interests</h2>
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
@@ -319,7 +488,7 @@
             </div>
         </section>
 
-        <!-- NEW: Languages Section -->
+        <!-- Languages Section -->
         <section id="languages" class="mb-16 md:mb-24 fade-in-section">
             <h2 class="text-3xl md:text-4xl font-bold mb-8 text-white text-center">Languages</h2>
             <div class="flex justify-center gap-6">
@@ -472,6 +641,18 @@
                 });
             }
         });
+
+        // --- Slider Scroll Function ---
+        function scrollSlider(containerId, direction) {
+            const container = document.getElementById(containerId);
+            const scrollAmount = container.clientWidth * 0.8; // Scroll 80% of width
+            
+            if (direction === 'left') {
+                container.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
+            } else {
+                container.scrollBy({ left: scrollAmount, behavior: 'smooth' });
+            }
+        }
     </script>
 
 </body>
